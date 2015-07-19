@@ -1,0 +1,10 @@
+{
+  "groupId":"net.leanix",
+  "modelPackage":"net.leanix.swaggerdemo.api.models",
+  "apiPackage":"net.leanix.swaggerdemo.api",
+  "invokerPackage":"net.leanix.swaggerdemo.api",
+  "artifactId":"swaggerdemo",
+  "artifactVersion":"0.0.1",
+  "composerVendorName": "leanix",
+  "composerProjectName": "swaggerdemo-api"
+}
