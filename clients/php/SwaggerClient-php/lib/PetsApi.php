@@ -64,7 +64,7 @@ class PetsApi
     {
         if ($apiClient == null) {
             $apiClient = new ApiClient();
-            $apiClient->getConfig()->setHost('https://localhost{{basePath}}');
+            $apiClient->getConfig()->setHost('http://localhost:8080/');
         }
   
         $this->apiClient = $apiClient;
@@ -94,9 +94,9 @@ class PetsApi
     /**
      * getAll
      *
-     * Get all pets
+     * getAll
      *
-     * @return \net.leanix.swaggerdemo.api\Animal[]
+     * @return \net.leanix.swaggerdemo.api.models\Animal[]
      * @throws \net.leanix.swaggerdemo.api\ApiException on non-2xx response
      */
     public function getAll()
@@ -136,12 +136,12 @@ class PetsApi
             list($response, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
-                $headerParams, '\net.leanix.swaggerdemo.api\Animal[]'
+                $headerParams, '\net.leanix.swaggerdemo.api.models\Animal[]'
             );
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
-                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\net.leanix.swaggerdemo.api\Animal[]', $httpHeader);
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\net.leanix.swaggerdemo.api.models\Animal[]', $httpHeader);
                 $e->setResponseObject($data);
                 break;
             }
@@ -153,17 +153,88 @@ class PetsApi
             return null;
         }
   
-        return $this->apiClient->getSerializer()->deserialize($response, '\net.leanix.swaggerdemo.api\Animal[]');
+        return $this->apiClient->getSerializer()->deserialize($response, '\net.leanix.swaggerdemo.api.models\Animal[]');
+        
+    }
+    
+    /**
+     * add
+     *
+     * add
+     *
+     * @param \net.leanix.swaggerdemo.api.models\Animal $body  (optional)
+     * @return \net.leanix.swaggerdemo.api.models\Animal
+     * @throws \net.leanix.swaggerdemo.api\ApiException on non-2xx response
+     */
+    public function add($body=null)
+    {
+        
+  
+        // parse inputs
+        $resourcePath = "/pets";
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+        $method = "POST";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+  
+        
+        
+        
+        
+        // body params
+        $_tempBody = null;
+        if (isset($body)) {
+            $_tempBody = $body;
+        }
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } else if (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        
+        // make the API Call
+        try
+        {
+            list($response, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath, $method,
+                $queryParams, $httpBody,
+                $headerParams, '\net.leanix.swaggerdemo.api.models\Animal'
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            case 200:
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\net.leanix.swaggerdemo.api.models\Animal', $httpHeader);
+                $e->setResponseObject($data);
+                break;
+            }
+  
+            throw $e;
+        }
+        
+        if (!$response) {
+            return null;
+        }
+  
+        return $this->apiClient->getSerializer()->deserialize($response, '\net.leanix.swaggerdemo.api.models\Animal');
         
     }
     
     /**
      * byName
      *
-     * Get a pet by its name
+     * byName
      *
      * @param string $name  (required)
-     * @return \net.leanix.swaggerdemo.api\Animal
+     * @return \net.leanix.swaggerdemo.api.models\Animal
      * @throws \net.leanix.swaggerdemo.api\ApiException on non-2xx response
      */
     public function byName($name)
@@ -214,12 +285,12 @@ class PetsApi
             list($response, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
-                $headerParams, '\net.leanix.swaggerdemo.api\Animal'
+                $headerParams, '\net.leanix.swaggerdemo.api.models\Animal'
             );
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
-                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\net.leanix.swaggerdemo.api\Animal', $httpHeader);
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\net.leanix.swaggerdemo.api.models\Animal', $httpHeader);
                 $e->setResponseObject($data);
                 break;
             }
@@ -231,7 +302,85 @@ class PetsApi
             return null;
         }
   
-        return $this->apiClient->getSerializer()->deserialize($response, '\net.leanix.swaggerdemo.api\Animal');
+        return $this->apiClient->getSerializer()->deserialize($response, '\net.leanix.swaggerdemo.api.models\Animal');
+        
+    }
+    
+    /**
+     * remove
+     *
+     * remove
+     *
+     * @param string $name  (required)
+     * @return \net.leanix.swaggerdemo.api.models\Animal
+     * @throws \net.leanix.swaggerdemo.api\ApiException on non-2xx response
+     */
+    public function remove($name)
+    {
+        
+        // verify the required parameter 'name' is set
+        if ($name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling remove');
+        }
+  
+        // parse inputs
+        $resourcePath = "/pets/{name}";
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+        $method = "DELETE";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+  
+        
+        
+        // path params
+        if ($name !== null) {
+            $resourcePath = str_replace(
+                "{" . "name" . "}",
+                $this->apiClient->getSerializer()->toPathValue($name),
+                $resourcePath
+            );
+        }
+        
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } else if (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        
+        // make the API Call
+        try
+        {
+            list($response, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath, $method,
+                $queryParams, $httpBody,
+                $headerParams, '\net.leanix.swaggerdemo.api.models\Animal'
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            case 200:
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\net.leanix.swaggerdemo.api.models\Animal', $httpHeader);
+                $e->setResponseObject($data);
+                break;
+            }
+  
+            throw $e;
+        }
+        
+        if (!$response) {
+            return null;
+        }
+  
+        return $this->apiClient->getSerializer()->deserialize($response, '\net.leanix.swaggerdemo.api.models\Animal');
         
     }
     
